@@ -31,6 +31,6 @@ jobs:
     - name: Execute SSH commmands on remote server
       uses: JimCronqvist/action-ssh@master
       with:
-        hosts: 'ec2-52-12-108-55.us-west-2.compute.amazonaws.com:22'
+        hosts: 'ubuntu@ec2-52-12-108-55.us-west-2.compute.amazonaws.com:22'
         privateKey: ${{ secrets.PRIVATE_KEY }}
         command: ls -la
