@@ -28,9 +28,10 @@ jobs:
     - name: Build Docker Image
       run: ./gradlew docker
       
-    - name: Execute SSH commmands on remote server
-      uses: JimCronqvist/action-ssh@master
+    - name: Run a command remotely
+      uses: docker://evaneos/ssh-action:0.1.0
       with:
-        hosts: 'ubuntu@ec2-52-12-108-55.us-west-2.compute.amazonaws.com:22'
-        privateKey: ${{ secrets.PRIVATE_KEY }}
+        hosts: 52.12.108.55
+        user: ubuntu
+        private_key: ${{ secrets.PRIVATE_KEY }}
         command: ls -la
