@@ -34,4 +34,4 @@ jobs:
         hosts: 52.12.108.55
         user: ubuntu
         private_key: ${{ secrets.PRIVATE_KEY }}
-        command: ls -la
+        commands: ls -la
