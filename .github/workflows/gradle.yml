@@ -27,3 +27,10 @@ jobs:
       run: ./gradlew clean build
     - name: Build Docker Image
       run: ./gradlew docker
+      
+    - name: Execute SSH commmands on remote server
+      uses: JimCronqvist/action-ssh@master
+      with:
+        hosts: 'ec2-52-12-108-55.us-west-2.compute.amazonaws.com'
+        privateKey: ${{ secrets.PRIVATE_KEY }}
+        command: ls -la
