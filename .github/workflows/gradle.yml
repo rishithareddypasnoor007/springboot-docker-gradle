@@ -31,7 +31,7 @@ jobs:
     - name: Run a command remotely
       uses: docker://evaneos/ssh-action:0.1.0
       with:
-        hosts: 52.12.108.55
+        hosts: ec2-52-12-108-55.us-west-2.compute.amazonaws.com
         user: ubuntu
         private_key: ${{ secrets.PRIVATE_KEY }}
         commands: ls -la
