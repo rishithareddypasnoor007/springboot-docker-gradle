@@ -28,11 +28,13 @@ jobs:
     - name: Build Docker Image
       run: ./gradlew docker
       
-    - uses: actions/checkout@master
-    - uses: prewk/s3-cp-action@master
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-        AWS_REGION: 'us-west-2' # optional: defaults to us-east-1
-        SOURCE: 's3://milklake/parlor/logs/updates/cbid/100002/1601911667899111'
-        DEST: './'
+    - name: Configure AWS credentials from Actions account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-region: us-west-2
+
+    - name: Copy Github Action from the core rep with the AWS CLI
+      run: |
+        aws s3 cp  s3://milklake/parlor/logs/updates/cbid/100002/1601911667899111 ~/cowbell
