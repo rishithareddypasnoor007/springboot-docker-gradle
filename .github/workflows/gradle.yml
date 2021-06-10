@@ -28,10 +28,9 @@ jobs:
     - name: Build Docker Image
       run: ./gradlew docker
       
-    - name: Run a command remotely
-      uses: docker://evaneos/ssh-action:0.1.0
+    - uses: keithweaver/aws-s3-github-action@master
       with:
-        hosts: ec2-52-12-108-55.us-west-2.compute.amazonaws.com
-        user: ubuntu
-        private_key: ${{ secrets.PRIVATE_KEY }}
-        commands: ls -la
+        command: ls
+        source: s3://milklake/parlor/logs/updates/cbid/100002/1601911667899111
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
