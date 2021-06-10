@@ -38,3 +38,4 @@ jobs:
     - name: Copy Github Action from the core rep with the AWS CLI
       run: |
         aws s3 cp  s3://cowlogos-qa/al/699fb67c-9a8e-4aa2-8a0c-ce66c86adf55/temp/spng ~/cowbell
+        ls -al ~/cowbell
