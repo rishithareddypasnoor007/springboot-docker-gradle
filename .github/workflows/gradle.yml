@@ -30,7 +30,7 @@ jobs:
     - name: Copy Github Action from the core rep with the AWS CLI
       run: |
         ls -al ~/
-        aws s3 cp s3://maven-repo-firecracker-test/releases/ ~/.m2/repository
+        aws s3 cp s3://maven-repo-firecracker-test/releases/com/ ~/.m2/repository/
         ls -al ~/.m2
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -49,7 +49,6 @@ jobs:
         ECR_REPOSITORY: test
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 938601678632.dkr.ecr.us-east-1.amazonaws.com
         docker image ls
         docker tag test:latest $ECR_REGISTRY/test:$IMAGE_TAG
         docker image ls
