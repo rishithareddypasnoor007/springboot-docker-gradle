@@ -49,6 +49,7 @@ jobs:
         ECR_REPOSITORY: test
         IMAGE_TAG: ${{ github.sha }}
       run: |
+        echo $ECR_REGISTRY
         docker image ls
         docker tag test:latest $ECR_REGISTRY/test:$IMAGE_TAG
         docker image ls
