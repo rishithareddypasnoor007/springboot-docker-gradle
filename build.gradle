@@ -20,7 +20,7 @@ repositories {
 }
 
 docker {
-	name "test:1"
+	name "938601678632.dkr.ecr.us-east-1.amazonaws.com/test"
 	dockerfile file('src/docker/Dockerfile')
 	copySpec.from(jar).rename(".*","app.jar")
 	buildArgs(['JAR_FILE': "app.jar"])
