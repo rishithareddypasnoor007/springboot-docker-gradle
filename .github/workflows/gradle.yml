@@ -30,7 +30,7 @@ jobs:
     - name: Copy Github Action from the core rep with the AWS CLI
       run: |
         ls -al ~/
-        aws s3 cp s3://maven-repo-firecracker-test/releases/com/ ~/.m2/repository/
+        aws s3 sync s3://maven-repo-firecracker-test/releases/ ~/.m2/repository/
         ls -al ~/.m2
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
