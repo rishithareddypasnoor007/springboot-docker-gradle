@@ -40,7 +40,6 @@ jobs:
       run: ./gradlew docker
       
     - name: Login to Amazon ECR
-      id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Push image to Amazon ECR
