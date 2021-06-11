@@ -21,6 +21,17 @@ jobs:
       with:
         java-version: '12'
         distribution: 'adopt'
+    - name: Configure AWS credentials from Actions account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-region: us-west-2
+    - name: Copy Github Action from the core rep with the AWS CLI
+      run: |
+        mkdir ~/.m2
+        aws s3 cp s3://maven-repo-firecracker-test/releases/com/cowbell/server/common-messaging/1.0.100/common-messaging-1.0.100.jar ~/.m2
+        ls -al ~/.m2
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
@@ -28,14 +39,6 @@ jobs:
     - name: Build Docker Image
       run: ./gradlew docker
       
-    - name: Configure AWS credentials from Actions account
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-region: us-west-2
+    
 
-    - name: Copy Github Action from the core rep with the AWS CLI
-      run: |
-        aws s3 cp  s3://cowlogos-qa/al/699fb67c-9a8e-4aa2-8a0c-ce66c86adf55/temp/spng ~/cowbell
-        ls -al ~/cowbell
+    
