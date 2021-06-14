@@ -57,10 +57,6 @@ jobs:
         ls
         echo $ECR_REGISTRY
         docker image ls
-       # docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        docker image ls
-        #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
       
     
 
