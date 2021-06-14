@@ -13,7 +13,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    env:
+      VARIABLE: xyz
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 12
@@ -32,17 +33,17 @@ jobs:
         ##ls -al ~/
        ## aws s3 sync s3://maven-repo-firecracker-test/releases/ ~/.m2/repository/
         ##ls -al ~/.m2
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew clean build
-    - name: Build Docker Image
-      run: ./gradlew docker
+   # - name: Grant execute permission for gradlew
+    #  run: chmod +x gradlew
+   # - name: Build with Gradle
+   #   run: ./gradlew clean build
+   # - name: Build Docker Image
+    #  run: ./gradlew docker
     
       
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
+    #- name: Login to Amazon ECR
+     # id: login-ecr
+      #uses: aws-actions/amazon-ecr-login@v1
       
     - name: Push image to Amazon ECR
       env:
@@ -51,12 +52,14 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
         IMAGE_NAME: test-ghactions
       run: |
+        VARIABLE=ABC
+        echo $VARIABLE
         ls
         echo $ECR_REGISTRY
         docker image ls
-        docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+       # docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker image ls
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       
     
