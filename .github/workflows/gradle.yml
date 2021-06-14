@@ -51,6 +51,7 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
         IMAGE_NAME: test-ghactions
       run: |
+        ls
         echo $ECR_REGISTRY
         docker image ls
         docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
