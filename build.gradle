@@ -20,7 +20,7 @@ repositories {
 }
 
 docker {
-	name "test"
+	name "test-ghactions"
 	dockerfile file('src/docker/Dockerfile')
 	copySpec.from(jar).rename(".*","app.jar")
 	buildArgs(['JAR_FILE': "app.jar"])
