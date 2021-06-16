@@ -52,6 +52,7 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
         IMAGE_NAME: test-ghactions
       run: |
+        ./gittags.sh
         echo ${{ secrets.AWS_ACCESS_KEY_ID }}
         VARIABLE=ABC
         echo $VARIABLE
