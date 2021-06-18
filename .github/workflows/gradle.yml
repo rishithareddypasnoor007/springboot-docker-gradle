@@ -53,13 +53,12 @@ jobs:
         ECR_REPOSITORY: gh-actions
         IMAGE_TAG: ${{ github.sha }}
         IMAGE_NAME: test-ghactions
-        ACTION_ID: ${{github.ACTION}}
       run: |
         chmod 777 gittags.sh
         ./gittags.sh
         VARIABLE=ABC
         echo $VARIABLE
-        export ACTION_ID
+        export ACTION_ID=${{github.action}}
         ls
       continue-on-error: true
         
