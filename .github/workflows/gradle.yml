@@ -64,7 +64,7 @@ jobs:
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
         status: "success"
-        url: "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+        url: "https://github.com/rishithareddypasnoor007/springboot-docker-gradle/actions/runs/$GITHUB_RUN_ID"
         description: "this is my status check"
         name: "name of my status check"
         addHoldComment: "true"
