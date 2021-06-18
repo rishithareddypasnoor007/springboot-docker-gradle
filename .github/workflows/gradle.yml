@@ -58,7 +58,7 @@ jobs:
         ./gittags.sh
         VARIABLE=ABC
         echo $VARIABLE
-        l      
+        ls     
       
     - name: The job has succeeded
       if: always() && job.steps.PushToEcr.status == failure()
