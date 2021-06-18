@@ -61,7 +61,7 @@ jobs:
         ls     
       
     - name: The job has succeeded
-      if: always() && job.steps.PushToEcr.status == failure()
+      if: always() && job.steps.PushToEcr.status == success()
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
         status: "success"
