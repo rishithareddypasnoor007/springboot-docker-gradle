@@ -60,6 +60,15 @@ jobs:
         ls
         echo $ECR_REGISTRY
         docker image ls
+        
+    - name: Update status
+      uses: ouzi-dev/commit-status-updater@v1.1.0
+      with:
+        status: "pending"
+        addHoldComment: "true"
+        pendingComment: "action pending!"
+        successComment: "action success!"
+        failComment: "action failed!"
       
     
 
