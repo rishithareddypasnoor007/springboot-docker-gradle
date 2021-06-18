@@ -17,6 +17,7 @@ jobs:
       VARIABLE: xyz
     steps:
     - uses: actions/checkout@v2
+      id: checkout
     - name: Set up JDK 12
       uses: actions/setup-java@v2
       with:
@@ -46,6 +47,7 @@ jobs:
       #uses: aws-actions/amazon-ecr-login@v1
       
     - name: Push image to Amazon ECR
+      id: PushToECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: gh-actions
@@ -54,21 +56,23 @@ jobs:
       run: |
         chmod 777 gittags.sh
         ./gittags.sh
-        echo ${{ secrets.AWS_ACCESS_KEY_ID }}
         VARIABLE=ABC
         echo $VARIABLE
-        ls
-        echo $ECR_REGISTRY
-        docker image ls
+        ls      
         
     - name: Update status
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
-        status: "pending"
+        status: "success"
         addHoldComment: "true"
         pendingComment: "action pending!"
         successComment: "action success!"
         failComment: "action failed!"
+        
+        
+    #- name: Check on failures
+     # if: steps.PushToECR.outputs.status == 'failure' || steps.checkout.outputs.status == 'failure'
+      #run: exit 1
       
     
 
