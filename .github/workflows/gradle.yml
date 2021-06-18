@@ -58,27 +58,26 @@ jobs:
         ./gittags.sh
         VARIABLE=ABC
         echo $VARIABLE
-        ls   
+        ls 
+      continue-on-error: true
         
     - name: Push to ECR failed
-      if: always() && job.steps.PushToECR.status == failure()
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
-        status: "failure"
+        status: "${{ job.status }}"
         url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
         description: "this is my status check"
         name: "Push ECR"
-        failComment: "action failed!"
       
-    - name: The job has succeeded
-      if: always() && job.steps.PushToECR.status == success()
-      uses: ouzi-dev/commit-status-updater@v1.1.0
-      with:
-        status: "success"
-        url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
-        description: "this is my status check"
-        name: "Push ECR"
-        successComment: "action success!"
+   # - name: The job has succeeded
+    #  if: always() && job.steps.PushToECR.status == success()
+     # uses: ouzi-dev/commit-status-updater@v1.1.0
+      #with:
+       # status: "success"
+        #url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
+        #description: "this is my status check"
+       # name: "Push ECR"
+        #successComment: "action success!"
       
     
         
