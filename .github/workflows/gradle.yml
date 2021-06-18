@@ -60,7 +60,7 @@ jobs:
         echo $VARIABLE
         export ACTION_ID=${{github.action}}
         l
-      #continue-on-error: true
+      continue-on-error: true
         
     - name: Status for Push to ECR
       if: always() && ${{ steps.PushToECR.outcome }} == 'failure'
