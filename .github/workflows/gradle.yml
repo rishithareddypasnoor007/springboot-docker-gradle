@@ -64,7 +64,7 @@ jobs:
       continue-on-error: true
         
     - name: Status for Push to ECR
-      if: steps.PushToECR.outputs.status == 'failure'
+      if: always() &&steps.PushToECR.outputs.status == 'failure'
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
         status: "failure"
@@ -73,7 +73,7 @@ jobs:
         name: "Push to ECR"
     
     - name: Status for Push to ECR 
-      if: steps.PushToECR.outputs.status == 'success'
+      if: always() && steps.PushToECR.outputs.status == 'success'
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
         status: "success"
