@@ -61,7 +61,7 @@ jobs:
         l      
       
     - name: The job has succeeded
-      if: job.steps.PushToEcr.status == failure()
+      if: always() && job.steps.PushToEcr.status == failure()
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
         status: "success"
@@ -71,7 +71,7 @@ jobs:
         successComment: "action success!"
       
     - name: Push to ECR failed
-      if: job.steps.PushToEcr.status == failure()
+      if: always() && job.steps.PushToEcr.status == failure()
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
         status: "failure"
