@@ -70,9 +70,9 @@ jobs:
         failComment: "action failed!"
         
         
-    #- name: Check on failures
-     # if: steps.PushToECR.outputs.status == 'failure' || steps.checkout.outputs.status == 'failure'
-      #run: exit 1
+    - name: Check on failures
+      if: steps.PushToECR.outputs.status == 'failure' || steps.checkout.outputs.status == 'failure'
+      run: exit 1
       
     
 
