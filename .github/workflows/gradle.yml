@@ -60,19 +60,15 @@ jobs:
         echo $VARIABLE
         l 
       #continue-on-error: true
-      
-    - name: My status step
-      if: ${{ failure() }}
-      uses: actions/heroku@1.0.0
         
-   # - name: Status for Push to ECR
-    #  if: always()
-     # uses: ouzi-dev/commit-status-updater@v1.1.0
-      #with:
-       # status: "${{ job.status }}"
-        #url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
-       # description: "this is my status check"
-        #name: "Push to ECR"
+    - name: Status for Push to ECR
+      if: ${{ failure() }}
+      uses: ouzi-dev/commit-status-updater@v1.1.0
+      with:
+        status: "failure"
+        url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
+        description: "this is my status check"
+        name: "Push to ECR"
       
    # - name: The job has succeeded
     #  if: always() && job.steps.PushToECR.status == success()
