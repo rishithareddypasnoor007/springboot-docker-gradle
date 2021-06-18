@@ -59,15 +59,16 @@ jobs:
         VARIABLE=ABC
         echo $VARIABLE
         l 
-      continue-on-error: true
+      #continue-on-error: true
         
-    - name: Push to ECR failed
+    - name: Status for Push to ECR
+      if: always()
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
         status: "${{ job.status }}"
         url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
         description: "this is my status check"
-        name: "Push ECR"
+        name: "Push to ECR"
       
    # - name: The job has succeeded
     #  if: always() && job.steps.PushToECR.status == success()
