@@ -58,7 +58,7 @@ jobs:
         ./gittags.sh
         VARIABLE=ABC
         echo $VARIABLE
-        ls 
+        l 
       continue-on-error: true
         
     - name: Push to ECR failed
