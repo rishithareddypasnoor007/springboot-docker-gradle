@@ -72,7 +72,7 @@ jobs:
         description: "this is my status check"
         name: "Push to ECR"
     - run: exit 1
-      if: ${{ steps.failStep.outcome }} == 'success'
+      if: ${{ steps.failStep.outcome }} == 'failure'
       shell: bash
     - name: Status for Push to ECR 
       if: always() && ${{ steps.PushToECR.outcome }} == 'success'
