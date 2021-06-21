@@ -59,7 +59,7 @@ jobs:
         VARIABLE=ABC
         echo $VARIABLE
         export ACTION_ID=${{github.action}}
-        ls
+        l
       continue-on-error: true
         
     - name: Status for Push to ECR
