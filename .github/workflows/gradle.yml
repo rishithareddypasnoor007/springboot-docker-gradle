@@ -63,6 +63,7 @@ jobs:
       continue-on-error: true
         
     - name: Status for Push to ECR
+      id: failStep
       if: always() && ${{ steps.PushToECR.outcome }} == 'failure'
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
@@ -71,7 +72,7 @@ jobs:
         description: "this is my status check"
         name: "Push to ECR"
     - run: exit 1
-      if: ${{ success() }}
+      if: ${{ steps.failStep.outcome }} == 'success'
       shell: bash
     - name: Status for Push to ECR 
       if: always() && ${{ steps.PushToECR.outcome }} == 'success'
