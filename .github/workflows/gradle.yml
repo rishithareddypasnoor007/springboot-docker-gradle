@@ -64,7 +64,7 @@ jobs:
         
     - name: Status for Push to ECR
       id: failStep
-      if: always() && ${{ steps.PushToECR.outcome == 'failure' }} 
+      if: ${{ steps.PushToECR.outcome == 'failure' }} 
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
         status: "failure"
@@ -75,7 +75,7 @@ jobs:
      # run: exit 1
       #shell: bash
     - name: Status for Push to ECR 
-      if: always() && ${{ steps.PushToECR.outcome == 'success' }} 
+      if: ${{ steps.PushToECR.outcome == 'success' }} 
       uses: ouzi-dev/commit-status-updater@v1.1.0
       with:
         status: "success"
