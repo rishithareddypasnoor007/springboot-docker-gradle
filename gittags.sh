@@ -3,14 +3,14 @@ source source.properties
 echo $version
 git pull
 
-IFS='.' read -r -a array <<< "$version"
+IFS='.' read -r -a array << "$version"
 version_major=${array[0]}
 version_minor=${array[1]}
 version_patch=${array[2]}
 
 LATEST_TAG=$(git describe --tags --abbrev=0)
 echo $LATEST_TAG
-IFS='.' read -r -a array <<< "$LATEST_TAG"
+IFS='.' read -r -a array << "$LATEST_TAG"
 major=${array[0]}
 minor=${array[1]}
 patch=${array[2]}
