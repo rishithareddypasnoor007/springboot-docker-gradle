@@ -107,10 +107,6 @@ jobs:
     - name: Install newman
       run: |
         npm install -g newman
-    - uses: actions/checkout@v2
-      with:
-        repository: 'Cowbell-Cyber/fir-api-postman'
-
     
     - name: Run POSTMAN collection
       id: apiTest
