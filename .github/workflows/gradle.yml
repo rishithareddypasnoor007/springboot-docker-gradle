@@ -54,6 +54,19 @@ jobs:
      # id: login-ecr
       #uses: aws-actions/amazon-ecr-login@v1
       
+    - name: get tag number
+      id: tag-version
+      run: |
+         ./gittags.sh
+    
+    - name: Create git tag
+      run: |
+         echo "${{ steps.tag-version.outcome }}"
+         git fetch --prune --unshallow
+         git describe --abbrev=0 --tags
+         #git tag -a 0.0.126 -m 'version 0.0.126'
+         #git tag -a ${{ steps.tag-version.outcome }} -m 'version  ${{ steps.tag-version.outcome }}'
+      
     - name: Push image to Amazon ECR
       id: PushToECR
       env:
