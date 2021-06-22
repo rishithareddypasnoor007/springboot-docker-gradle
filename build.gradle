@@ -26,6 +26,12 @@ docker {
 	buildArgs(['JAR_FILE': "app.jar"])
 }
 
+bootJar {
+	layered {
+		enabled = true
+	}
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
