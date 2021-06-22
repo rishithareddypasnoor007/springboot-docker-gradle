@@ -43,7 +43,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean build
     - name: Build Docker Image
-      run: ./gradlew docker --stacktrace
+      run: ./gradlew bootJar
     
       
     #- name: Login to Amazon ECR
