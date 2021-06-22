@@ -61,8 +61,8 @@ jobs:
     - name: Create git tag
       run: |
          echo "${{ steps.tag-version.outcome }}"
-         git fetch --prune --unshallow
-         git describe --abbrev=0 --tags
+         #git fetch --prune --unshallow
+         #git describe --abbrev=0 --tags
          #git tag -a 0.0.126 -m 'version 0.0.126'
          #git tag -a ${{ steps.tag-version.outcome }} -m 'version  ${{ steps.tag-version.outcome }}'
       
@@ -101,6 +101,29 @@ jobs:
         description: "this is my status check"
         name: "Push to ECR"
       
+      
+    - name: Install Node
+      uses: actions/setup-node@v1
+      with: 
+        node-version: '12.x'
+
+    - name: Install newman
+      run: |
+        npm install -g newman
+    - uses: actions/checkout@v2
+      with:
+        repository: 'Cowbell-Cyber/fir-api-postman'
+
+    
+    - name: Run POSTMAN collection
+      id: apiTest
+      run: |
+        which newman
+        which npm
+        which node
+        newman --version
+        npm --version
+        node --version
    # - name: The job has succeeded
     #  if: always() && job.steps.PushToECR.status == success()
      # uses: ouzi-dev/commit-status-updater@v1.1.0
