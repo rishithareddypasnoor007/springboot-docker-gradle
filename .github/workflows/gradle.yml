@@ -114,9 +114,12 @@ jobs:
         which newman
         which npm
         which node
-        echo "newman:" newman --version
-        echo "npm: "npm --version
-        echo "node:"node --version
+        echo "newman:" 
+        newman --version
+        echo "npm: "
+        npm --version
+        echo "node:"
+        node --version
    # - name: The job has succeeded
     #  if: always() && job.steps.PushToECR.status == success()
      # uses: ouzi-dev/commit-status-updater@v1.1.0
