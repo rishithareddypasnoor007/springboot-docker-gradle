@@ -33,17 +33,17 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
         aws-region: us-west-2
-    ##- name: Copy Github Action from the core rep with the AWS CLI
-      ##run: |
-        ##ls -al ~/
-       ## aws s3 sync s3://maven-repo-firecracker-test/releases/ ~/.m2/repository/
-        ##ls -al ~/.m2
-   # - name: Grant execute permission for gradlew
-    #  run: chmod +x gradlew
-   # - name: Build with Gradle
-   #   run: ./gradlew clean build
-   # - name: Build Docker Image
-    #  run: ./gradlew docker
+    - name: Copy Github Action from the core rep with the AWS CLI
+      run: |
+        ls -al ~/
+        aws s3 sync s3://maven-repo-firecracker-test/releases/ ~/.m2/repository/
+        ls -al ~/.m2
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew clean build
+    - name: Build Docker Image
+      run: ./gradlew docker
     
       
     #- name: Login to Amazon ECR
