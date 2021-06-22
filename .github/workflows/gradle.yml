@@ -58,8 +58,9 @@ jobs:
       id: tag-version
       run: |
          pwd
+         ls -al
          chmod 777 gittags.sh
-         ./gittags.sh
+         sh ./gittags.sh
     
     - name: Create git tag
       run: |
