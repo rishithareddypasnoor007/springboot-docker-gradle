@@ -1,5 +1,5 @@
 #!/bin/bash
-source source.properties
+source ./source.properties
 echo $version
 #git pull
 
