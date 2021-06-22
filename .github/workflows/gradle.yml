@@ -57,7 +57,7 @@ jobs:
          ls -al
          chmod 777 gittags.sh
          sh ./gittags.sh
-    
+      shell: bash
     - name: Create git tag
       run: |
          echo "${{ steps.tag-version.outcome }}"
