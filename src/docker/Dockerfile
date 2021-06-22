@@ -1,5 +1,11 @@
-FROM openjdk:12-jdk-alpine
+FROM adoptopenjdk:11-jre-hotspot as builder
 VOLUME /tmp
-ARG JAR_FILE
+ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+RUN java -Djarmode=layertools -jar application.jar extract
+COPY --from=builder dependencies/ ./
+COPY --from=builder snapshot-dependencies/ ./
+COPY --from=builder spring-boot-loader/ ./
+COPY --from=builder application/ ./
+ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
+#ENTRYPOINT ["java", "-jar", "/app.jar"]
