@@ -55,14 +55,11 @@ jobs:
       run: |
          pwd
          ls -al
-         chmod 777 gittags.sh
-         sh ./gittags.sh
-      shell: bash
+         
     - name: Create git tag
       run: |
-         echo "${{ steps.tag-version.outcome }}"
          #git fetch --prune --unshallow
-         #git describe --abbrev=0 --tags
+         git describe --abbrev=0 --tags
          #git tag -a 0.0.126 -m 'version 0.0.126'
          #git tag -a ${{ steps.tag-version.outcome }} -m 'version  ${{ steps.tag-version.outcome }}'
       
