@@ -1,7 +1,7 @@
 #!/bin/bash
 source source.properties
 echo $version
-git pull
+#git pull
 
 IFS='.' read -r -a array <<< "$version"
 version_major=${array[0]}
