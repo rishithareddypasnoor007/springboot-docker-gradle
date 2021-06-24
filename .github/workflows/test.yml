@@ -1,0 +1,22 @@
+name: testing script
+
+on:
+  workflow_dispatch
+
+
+jobs:
+  #if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: run script
+      run: |
+        chmod 777 $GIRHUB_WORKSPACE/.github/workflows/test.sh
+        $GIRHUB_WORKSPACE/.github/workflows/test.sh
+        if [ $? -eq 0 ]; then
+          echo "success"
+        else
+          echo "fail"
+        fi
