@@ -17,9 +17,29 @@ jobs:
     - name: run script
       run: |
         chmod 777 ./.github/workflows/test.sh
-        ./.github/workflows/test.sh
+      # ./.github/workflows/test.sh
       #  if [ $? -eq 0 ]; then
        #   echo "success"
       #  else
       #    echo "fail"
       #  fi
+    - name: checkout Another repo
+      uses: actions/checkout@v2
+      with:
+        repository: 'rishithareddypasnoor007/AWS'
+        ref: master
+        
+    - name: editing a file
+      run: |
+        echo "testing push to repos"  >> VPC.yml
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "appended changes to VPC.yml file" -a
+    
+    - name: Pushing the changes
+      uses: ad-m/github-push-action@master
+      with:
+        #github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+        
+    
