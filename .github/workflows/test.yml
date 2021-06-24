@@ -16,7 +16,7 @@ jobs:
       
     - name: run script
       run: |
-        chmod 777 $GIRHUB_WORKSPACE/.github/workflows/test.sh
+        chmod 777 $GITHUB_WORKSPACE/.github/workflows/test.sh
         $GIRHUB_WORKSPACE/.github/workflows/test.sh
         if [ $? -eq 0 ]; then
           echo "success"
