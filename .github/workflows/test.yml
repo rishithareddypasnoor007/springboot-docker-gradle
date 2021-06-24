@@ -9,20 +9,9 @@ jobs:
 
   build:
     runs-on: ubuntu-20.04
-
+    env:
+      VARIABLE: CidrBlock
     steps:
-    - name: Checkout source code
-      uses: actions/checkout@v2
-      
-    - name: run script
-      run: |
-        chmod 777 ./.github/workflows/test.sh
-      # ./.github/workflows/test.sh
-      #  if [ $? -eq 0 ]; then
-       #   echo "success"
-      #  else
-      #    echo "fail"
-      #  fi
     - name: checkout Another repo
       uses: actions/checkout@v2
       with:
@@ -31,17 +20,17 @@ jobs:
         
     - name: editing a file
       run: |
-        echo "testing push to repos"  >> VPC.yml
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git commit -m "appended changes to VPC.yml file" -a
+        cat VPC.yml | sed 's/'"${{ env.VARIABLE }}"':.*/'"${{ env.VARIABLE }}"':'"0.0.0"'/g' | tee VPC.yml
+      #  git config --local user.email "github-actions[bot]@users.noreply.github.com"
+      #  git config --local user.name "github-actions[bot]"
+      #  git commit -m "appended changes to VPC.yml file" -a
     
-    - name: Pushing the changes
-      uses: ad-m/github-push-action@master
-      with:
-        repository: 'rishithareddypasnoor007/AWS'
-        github_token: ${{ GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+#    - name: Pushing the changes
+ #     uses: ad-m/github-push-action@master
+ #     with:
+ #       repository: 'rishithareddypasnoor007/AWS'
+ #       github_token: ${{ GITHUB_TOKEN }}
+ #       branch: ${{ github.ref }}
         
         
     
