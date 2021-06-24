@@ -16,10 +16,10 @@ jobs:
       
     - name: run script
       run: |
-        chmod 777 $GITHUB_WORKSPACE/.github/workflows/test.sh
-        $GIRHUB_WORKSPACE/.github/workflows/test.sh
-        if [ $? -eq 0 ]; then
-          echo "success"
-        else
-          echo "fail"
-        fi
+        chmod 777 ./.github/workflows/test.sh
+        ./.github/workflows/test.sh
+      #  if [ $? -eq 0 ]; then
+       #   echo "success"
+      #  else
+      #    echo "fail"
+      #  fi
