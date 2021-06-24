@@ -39,8 +39,9 @@ jobs:
     - name: Pushing the changes
       uses: ad-m/github-push-action@master
       with:
-        #github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
         repository: 'rishithareddypasnoor007/AWS'
+        github_token: ${{ GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+        
         
     
