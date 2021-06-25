@@ -24,6 +24,7 @@ jobs:
           echo "Job 1  JOB=$GITHUB_JOB"
           echo "Job 1 RUN_ID=$GITHUB_RUN_ID"
           echo "Job 1 RUN_NUMBER=$GITHUB_RUN_NUMBER"
+          echo "Job 1  ACTION=$GITHUB_ACTION"
   job2:
     runs-on: ubuntu-20.04
     needs: build
@@ -35,6 +36,7 @@ jobs:
           echo "Job 2  JOB=$GITHUB_JOB"
           echo "Job 2  RUN_ID=$GITHUB_RUN_ID"
           echo "Job 2 RUN_NUMBER=$GITHUB_RUN_NUMBER"
+          echo "Job 2  ACTION=$GITHUB_ACTION"
         
         
     
