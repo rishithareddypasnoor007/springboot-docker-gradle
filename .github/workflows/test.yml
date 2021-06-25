@@ -23,16 +23,20 @@ jobs:
       run: |
          sed -i 's/'^"${{ env.VARIABLE }}"':.*/'"${{ env.VARIABLE }}"':'"0.0.0"'/g' VPC.yml
          cat VPC.yml
-      #  git config --local user.email "github-actions[bot]@users.noreply.github.com"
-      #  git config --local user.name "github-actions[bot]"
-      #  git commit -m "appended changes to VPC.yml file" -a
-    
-#    - name: Pushing the changes
- #     uses: ad-m/github-push-action@master
- #     with:
- #       repository: 'rishithareddypasnoor007/AWS'
- #       github_token: ${{ GITHUB_TOKEN }}
- #       branch: ${{ github.ref }}
+         echo "Job 1 JOB- " ${{ GITHUB_JOB }}
+         echo "Job 1 RUN_ID- " ${{ GITHUB_RUN_ID }}
+         echo "Job 1 RUN_NUMBER - " {{ GITHUB_RUN_NUMBER }}
+  job2:
+    runs-on: ubuntu-20.04
+    needs: build
+    env:
+      VARIABLE: CidrBlock
+    steps:
+    - name: checkout Another repo
+      run: |
+        echo "Job 2 JOB- " ${{ GITHUB_JOB }}
+        echo "Job 2 RUN_ID- " ${{ GITHUB_RUN_ID }}
+        echo "Job 2 RUN_NUMBER - " {{ GITHUB_RUN_NUMBER }}
         
         
     
