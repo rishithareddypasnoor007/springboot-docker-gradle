@@ -21,8 +21,10 @@ jobs:
         
     - name: printing repo name
       run: |
-        echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d "/" -f2)" >> $GITHUB_ENV 
-        echo ${{ env.REPOSITORY }}
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_REPOSITORY | cut -d "/" -f2
+  #      echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d "/" -f2)" >> $GITHUB_ENV 
+  #      echo ${{ env.REPOSITORY }}
 #  job2:
 #    runs-on: ubuntu-20.04
 #    needs: build
