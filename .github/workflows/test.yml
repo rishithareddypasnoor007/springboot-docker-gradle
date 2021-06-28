@@ -33,7 +33,7 @@ jobs:
   
   job2:
     runs-on: ubuntu-20.04
-#    needs: build
+    needs: job1
 #    env:
 #      VARIABLE: CidrBlock
     steps:
