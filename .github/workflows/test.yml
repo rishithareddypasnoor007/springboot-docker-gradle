@@ -25,12 +25,12 @@ jobs:
           echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)" >> $GITHUB_ENV 
     #      REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
     #      echo $REPOSITORY
-          
-          
-          
+               
     - name: print repo name
       run: |
         echo "env repo : ${{ env.REPOSITORY }}"
+        echo "git commit sha from job 1=$GITHUB_SHA"
+  
   job2:
     runs-on: ubuntu-20.04
 #    needs: build
@@ -40,11 +40,13 @@ jobs:
     - name: Job2
       id: job2step
       run: |
+          sleep 30
           echo "Job 2  JOB=$GITHUB_JOB"
           echo "Job 2  RUN_ID=$GITHUB_RUN_ID"
           echo "Job 2 RUN_NUMBER=$GITHUB_RUN_NUMBER"
           echo "Job 2  ACTION=$GITHUB_ACTION"
           echo ${{ steps.job2step.outcome }}
+          echo "git commit sha from job 2=$GITHUB_SHA"
 
   #    - name: Set status check for deployment
   #      if: ${{ steps.job2step.outcome != 'success' }} 
