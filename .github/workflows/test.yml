@@ -10,44 +10,42 @@ jobs:
 
   build:
     runs-on: ubuntu-20.04
-    env:
-      VARIABLE: CidrBlock
+ #   env:
+#      VARIABLE: CidrBlock
     steps:
-    - name: checkout Another repo
-      uses: actions/checkout@v2
-      with:
-        repository: 'rishithareddypasnoor007/AWS'
-        ref: master
+ #   - name: checkout Another repo
+ #     uses: actions/checkout@v2
+ #     with:
+  #      repository: 'rishithareddypasnoor007/AWS'
+#        ref: master
         
-    - name: editing a file
+    - name: printing repo name
       run: |
-          echo "Job 1  JOB=$GITHUB_JOB"
-          echo "Job 1 RUN_ID=$GITHUB_RUN_ID"
-          echo "Job 1 RUN_NUMBER=$GITHUB_RUN_NUMBER"
-          echo "Job 1  ACTION=$GITHUB_ACTION"
-  job2:
-    runs-on: ubuntu-20.04
-    needs: build
-    env:
-      VARIABLE: CidrBlock
-    steps:
-    - name: checkout Another repo
-      id: job2step
-      run: |
-          echo "Job 2  JOB=$GITHUB_JOB"
-          echo "Job 2  RUN_ID=$GITHUB_RUN_ID"
-          echo "Job 2 RUN_NUMBER=$GITHUB_RUN_NUMBER"
-          echo "Job 2  ACTION=$GITHUB_ACTION"
-          echo ${{ steps.job2step.outcome }}
+        echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d "/" -f2)" >> $GITHUB_ENV 
+        echo ${{ env.REPOSITORY }}
+#  job2:
+#    runs-on: ubuntu-20.04
+#    needs: build
+#    env:
+#      VARIABLE: CidrBlock
+#    steps:
+#    - name: checkout Another repo
+#      id: job2step
+#      run: |
+#          echo "Job 2  JOB=$GITHUB_JOB"
+#          echo "Job 2  RUN_ID=$GITHUB_RUN_ID"
+#          echo "Job 2 RUN_NUMBER=$GITHUB_RUN_NUMBER"
+#          echo "Job 2  ACTION=$GITHUB_ACTION"
+#          echo ${{ steps.job2step.outcome }}
           
-    - name: Set status check for deployment
-      if: ${{ steps.job2step.outcome != 'success' }} 
-      uses: ouzi-dev/commit-status-updater@v1.1.0
-      with:
-        status: "failure"
-        url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
-        description: " Service start failed"
-        name: "Deployment"
-        
+#    - name: Set status check for deployment
+#      if: ${{ steps.job2step.outcome != 'success' }} 
+#      uses: ouzi-dev/commit-status-updater@v1.1.0
+#      with:
+#        status: "failure"
+#        url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
+#        description: " Service start failed"
+#        name: "Deployment"
+#        
         
     
