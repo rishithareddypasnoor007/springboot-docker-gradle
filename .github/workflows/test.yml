@@ -47,6 +47,8 @@ jobs:
           echo "Job 2  ACTION=$GITHUB_ACTION"
           echo ${{ steps.job2step.outcome }}
           echo "git commit sha from job 2=$GITHUB_SHA"
+          echo "REPOSITORY2=$(${GITHUB_REPOSITORY#*/})" >> $GITHUB_ENV
+          echo "Repo name: ${{ env.REPOSITORY2 }}"
 
   #    - name: Set status check for deployment
   #      if: ${{ steps.job2step.outcome != 'success' }} 
