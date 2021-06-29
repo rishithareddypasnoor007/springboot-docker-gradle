@@ -58,14 +58,14 @@ jobs:
         ls -al
         cat repository.value
         cat service.value
-        echo "SERVICE=`cat service.value`" >> $GITHUB_ENV
-        echo "REPOSITORY=`cat repository.value`" >> $GITHUB_ENV
+        echo "SERVICE=$(cat service.value)" >> $GITHUB_ENV
+        echo "REPOSITORY=$(cat repository.value)" >> $GITHUB_ENV
   
-    - name: Job2
+    - name: printing variables
       id: job2step
       run: |
-          echo "service name=$SERVICE"
-          echo "repo name= $REPOSITORY"
+          echo "service name=${{ env.SERVICE }}"
+          echo "repo name= ${{ env.REPOSITORY }}"
 
   #    - name: Set status check for deployment
   #      if: ${{ steps.job2step.outcome != 'success' }} 
