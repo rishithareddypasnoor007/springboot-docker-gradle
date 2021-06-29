@@ -22,8 +22,10 @@ jobs:
         
     - name: get repo name
       run: |
-          echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)" >> $GITHUB_ENV
-          echo $GITHUB_REPOSITORY | cut -d'/' -f2 > reponame.value
+          mkdir artifacts
+          echo "REPOSITORY=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+          echo "${REPOSITOTY#*-}" > artifacts/service.value
+          echo $REPOSITORY > artifacts/repository.value
     #      REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
     #      echo $REPOSITORY
                
@@ -35,8 +37,8 @@ jobs:
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v2
       with:
-        name: my-artifact
-        path: reponame.value
+        name: artifacts
+        path: artifacts
         retention-days: 1
   
   job2:
@@ -49,28 +51,19 @@ jobs:
     - name: 'Download Artifact'
       uses: actions/download-artifact@v2
       with:
-        name: my-artifact
+        name: artifacts
     
     - name: extracting REPO name from artifact
       run: |
         cat reponame.value
-        echo "REPONAME=`cat reponame.value`" >> $GITHUB_ENV
-    
+        echo "SERVICE=`cat service.value`" >> $GITHUB_ENV
+        echo "REPOSITORY=`cat repository.value`" >> $GITHUB_ENV
+  
     - name: Job2
       id: job2step
       run: |
-          sleep 30
-          echo "Job 2  JOB=$GITHUB_JOB"
-          echo "Job 2  RUN_ID=$GITHUB_RUN_ID"
-          echo "Job 2 RUN_NUMBER=$GITHUB_RUN_NUMBER"
-          echo "Job 2  ACTION=$GITHUB_ACTION"
-          echo ${{ steps.job2step.outcome }}
-          echo "git commit sha from job 2=$GITHUB_SHA"
-          echo "REPOSITORY2=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-          echo "Repo name: $REPOSITORY2"
-          echo "Repository from job 1: $REPONAME"
-          service=${REPONAME#*-}
-          echo "service name=$service"
+          echo "service name=$SERVICE"
+          echo "repo name= $REPOSITORY"
 
   #    - name: Set status check for deployment
   #      if: ${{ steps.job2step.outcome != 'success' }} 
