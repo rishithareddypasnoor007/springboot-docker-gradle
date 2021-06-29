@@ -32,8 +32,8 @@ jobs:
                
     - name: print repo name
       run: |
-        echo "${{ env.REPOSITOTY#*- }}"
-        echo "${{ env.REPOSITORY }}"
+        cat service.value
+        cat repository.value
         echo "env repo : ${{ env.REPOSITORY }}"
         echo "git commit sha from job 1=$GITHUB_SHA"
         
