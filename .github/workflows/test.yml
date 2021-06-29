@@ -24,13 +24,13 @@ jobs:
       run: |
           mkdir artifacts
           echo "REPOSITORY=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-          echo $REPOSITORY | sed "s/fir-//" >> artifacts/service.value
-          echo $REPOSITORY >> artifacts/repository.value
+          echo "${{ env.REPOSITORY }}" | sed "s/fir-//" >> artifacts/service.value
+          echo "${{ env.REPOSITORY }}" >> artifacts/repository.value
           
     #      REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
     #      echo $REPOSITORY
                
-    - name: print repo name
+    - name: print repo name and cat
       run: |
         cat artifacts/service.value
         cat artifacts/repository.value
