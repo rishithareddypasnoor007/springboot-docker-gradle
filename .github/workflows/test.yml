@@ -59,8 +59,8 @@ jobs:
     - name: extracting REPO name from artifact
       run: |
         ls -al
-        cat repository.value
-        cat service.value
+        cat artifacts/repository.value
+        cat artifacts/service.value
         echo "SERVICE=$(cat service.value)" >> $GITHUB_ENV
         echo "REPOSITORY=$(cat repository.value)" >> $GITHUB_ENV
   
