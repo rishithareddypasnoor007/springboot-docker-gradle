@@ -22,7 +22,8 @@ jobs:
         
     - name: get repo name
       run: |
-          echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)" >> $GITHUB_ENV 
+          echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)" >> $GITHUB_ENV
+          echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)" > gitname.value
     #      REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
     #      echo $REPOSITORY
                
@@ -30,6 +31,13 @@ jobs:
       run: |
         echo "env repo : ${{ env.REPOSITORY }}"
         echo "git commit sha from job 1=$GITHUB_SHA"
+        
+    - name: 'Upload Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: gitname.value
+        retention-days: 1
   
   job2:
     runs-on: ubuntu-20.04
@@ -37,6 +45,16 @@ jobs:
 #    env:
 #      VARIABLE: CidrBlock
     steps:
+    
+    - name: 'Download Artifact'
+      uses: actions/download-artifact@v2
+      with:
+        name: my-artifact
+    
+    - name: extracting REPO name from artifact
+      run: |
+        echo "REPONAME=`cat reponame.value`" >> $GITHUB_ENV
+    
     - name: Job2
       id: job2step
       run: |
@@ -49,6 +67,9 @@ jobs:
           echo "git commit sha from job 2=$GITHUB_SHA"
           echo "REPOSITORY2=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
           echo "Repo name: $REPOSITORY2"
+          echo "Repository from job 1: $REPONAME"
+          service=`${{ env.REPOSITORY }} | cut -d'-' -f2`
+          echo "service name=$service"
 
   #    - name: Set status check for deployment
   #      if: ${{ steps.job2step.outcome != 'success' }} 
