@@ -69,7 +69,7 @@ jobs:
           echo "REPOSITORY2=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
           echo "Repo name: $REPOSITORY2"
           echo "Repository from job 1: $REPONAME"
-          service=`$REPONAME | cut -d'-' -f2`
+          service=`echo $REPONAME | cut -d'-' -f2`
           echo "service name=$service"
 
   #    - name: Set status check for deployment
