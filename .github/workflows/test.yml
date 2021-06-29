@@ -23,7 +23,7 @@ jobs:
     - name: get repo name
       run: |
           echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)" >> $GITHUB_ENV
-          echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)" > reponame.value
+          echo $GITHUB_REPOSITORY | cut -d'/' -f2 > reponame.value
     #      REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
     #      echo $REPOSITORY
                
