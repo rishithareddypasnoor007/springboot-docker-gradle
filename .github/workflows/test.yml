@@ -30,7 +30,7 @@ jobs:
                
     - name: print repo name and create artifacts
       run: |
-        echo "${{ env.REPOSITORY }}" | sed "s/fir-//" >> artifacts/service.value
+        echo "${{ env.REPOSITORY }}" | sed "s/-//" >> artifacts/service.value
         echo "${{ env.REPOSITORY }}" >> artifacts/repository.value
         cat artifacts/service.value
         cat artifacts/repository.value
