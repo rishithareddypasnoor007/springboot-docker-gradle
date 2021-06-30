@@ -30,13 +30,13 @@ jobs:
     - name: Log tag number
       run: |
          echo "git SHA is $GITHUB_SHA"
-         echo "tag number is ${{ env.TAG_VERSION }}"
+         echo "tag number is $TAG_VERSION"
    
     - name: Create git Tag
       uses: negz/create-tag@v1
       with:
-        version: ${{ env.TAG_VERSION }}
-        message: version  ${{ env.TAG_VERSION }}
+        version: $TAG_VERSION
+        message: version  $TAG_VERSION
         #token: ${{ secrets.GITHUB_TOKEN }}
       
       
