@@ -4,141 +4,40 @@
 name: Java CI with Gradle
 
 on:
-  workflow_dispatch
- # push:
- #   branches: [ master ]
-#  pull_request:
-#    branches: [ master ]
+#  workflow_dispatch
+  push:
+    branches: [ master ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      VARIABLE: xyz
     steps:
     - uses: actions/checkout@v2
       id: checkout
+      with:
+       fetch-depth: 0
         
     - name: disply files
       run: ls -al
     
-    - name: Set up JDK 12
-      uses: actions/setup-java@v2
-      with:
-        java-version: '12'
-        distribution: 'adopt'
-    - name: Configure AWS credentials from Actions account
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-region: us-west-2
-    - name: Copy Github Action from the core rep with the AWS CLI
-      run: |
-        ls -al ~/
-        aws s3 sync s3://maven-repo-firecracker-test/releases/ ~/.m2/repository/
-        ls -al ~/.m2
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew clean build
-    - name: Build Docker Image
-      run: ./gradlew bootJar
-    
-      
-    #- name: Login to Amazon ECR
-     # id: login-ecr
-      #uses: aws-actions/amazon-ecr-login@v1
-      
-    - name: get tag number
+    - name: Get tag number
       id: tag-version
       run: |
-         pwd
-         ls -al
+         git describe
+         echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
          
-   # - name: Create git tag
-      #run: |
-         #git fetch --prune --unshallow
-         #git describe --abbrev=0 --tags
-         #git tag -a 0.0.126 -m 'version 0.0.126'
-         #git tag -a ${{ steps.tag-version.outcome }} -m 'version  ${{ steps.tag-version.outcome }}'
-      
-    - name: Push image to Amazon ECR
-      id: PushToECR
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: gh-actions
-        IMAGE_TAG: ${{ github.sha }}
-        IMAGE_NAME: test-ghactions
+    - name: Log tag number
       run: |
-        chmod 777 gittags.sh
-        ./gittags.sh
-        VARIABLE=ABC
-        echo $VARIABLE
-        export ACTION_ID=${{github.action}}
-        ls
-      continue-on-error: true
-        
-    - name: Status for Push to ECR
-      id: failStep
-      if: ${{ steps.PushToECR.outcome == 'failure' }} 
-      uses: ouzi-dev/commit-status-updater@v1.1.0
+         echo "git SHA is $GITHUB_SHA"
+         echo "tag number is ${{ env.TAG_VERSION }}"
+   
+    - name: Create git Tag
+      uses: negz/create-tag@v1
       with:
-        status: "failure"
-        url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
-        description: "this is my status check"
-        name: "Push to ECR"
-
-    - name: Status for Push to ECR 
-      if: ${{ steps.PushToECR.outcome == 'success' }} 
-      uses: ouzi-dev/commit-status-updater@v1.1.0
-      with:
-        status: "success"
-        url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
-        description: "this is my status check"
-        name: "Push to ECR"
-      
-      
-    - name: Install Node
-      uses: actions/setup-node@v1
-      with: 
-        node-version: '12.x'
-
-    - name: Install newman
-      run: |
-        npm install -g newman
-    
-    - name: Run POSTMAN collection
-      id: apiTest
-      run: |
-        which newman
-        which npm
-        which node
-        echo "newman:" 
-        newman --version
-        echo "npm: "
-        npm --version
-        echo "node:"
-        node --version
-   # - name: The job has succeeded
-    #  if: always() && job.steps.PushToECR.status == success()
-     # uses: ouzi-dev/commit-status-updater@v1.1.0
-      #with:
-       # status: "success"
-        #url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
-        #description: "this is my status check"
-       # name: "Push ECR"
-        #successComment: "action success!"
-      
-    
-        
-        
-        
-        
-    #- name: Check on failures
-     # if: steps.PushToECR.outputs.status == 'failure' || steps.checkout.outputs.status == 'failure'
-      #run: exit 1
+        version: ${{ env.TAG_VERSION }}
+        message: version  ${{ env.TAG_VERSION }}
+        #token: ${{ secrets.GITHUB_TOKEN }}
       
       
     
