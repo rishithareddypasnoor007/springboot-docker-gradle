@@ -25,6 +25,7 @@ jobs:
       id: tag-version
       run: |
          git describe --tags --abbrev=0
+         chmod 777 $GITHUB_WORKSPACE/.github/workflows/gitTags.sh
          echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
          
     - name: Log tag number
