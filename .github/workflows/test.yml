@@ -1,7 +1,15 @@
 name: testing script
 
 on:
-  workflow_dispatch
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '.github/workflows/test.yml'
+      - 'README.md'
+  schedule:
+    - cron: '*/5 * * * *'
+  
+#  workflow_dispatch
 #  push:
 #    branches: [ master ]
 
