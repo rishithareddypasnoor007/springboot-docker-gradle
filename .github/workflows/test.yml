@@ -34,6 +34,7 @@ jobs:
       run: |
           mkdir artifacts
           echo "REPOSITORY=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+          echo "Commit message: ${{ github.event.head_commit.message }}"
           
     #      REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
     #      echo $REPOSITORY
