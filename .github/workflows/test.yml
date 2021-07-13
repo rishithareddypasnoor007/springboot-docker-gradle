@@ -1,14 +1,15 @@
 name: testing script
 
 on:
-  push:
-    paths-ignore:
-      - '.github/workflows/gradle.yml'
-      - 'README.md'
+    workflow_dispatch
+#  push:
+#    paths-ignore:
+#      - '.github/workflows/gradle.yml'
+#      - 'README.md'
 #  schedule:
 #   - cron: '*/5 * * * *'
   
-#  workflow_dispatch
+
 #  push:
 #    branches: [ master ]
 
@@ -31,10 +32,22 @@ jobs:
 #        ref: master
         
     - name: get repo name
+      id: build-image
       run: |
           mkdir artifacts
           echo "REPOSITORY=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
           echo "Commit message: ${{ github.event.head_commit.message }}"
+          
+    - name: Set status check for Docker build - success
+      if: ${{ always() && steps.build-image.outcome == 'success' }} 
+      uses: Sibz/github-status-action@v1
+      with: 
+         authToken: ${{secrets.GITHUB_TOKEN}}
+         context: 'Build'
+         description: 'Passed'
+         state: 'success'
+         target_url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
+         sha: ${{github.event.pull_request.head.sha || github.sha}}
           
     #      REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
     #      echo $REPOSITORY
