@@ -25,78 +25,28 @@ jobs:
  #   env:
 #      VARIABLE: CidrBlock
     steps:
- #   - name: checkout Another repo
- #     uses: actions/checkout@v2
- #     with:
-  #      repository: 'rishithareddypasnoor007/AWS'
-#        ref: master
-        
-    - name: get repo name
-      id: build-image
-      run: |
-          mkdir artifacts
-          echo "REPOSITORY=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-          echo "Commit message: ${{ github.event.head_commit.message }}"
-          
-    - name: Notify Slack for Docker push - failure
-      if: ${{ always() && steps.push-image-to-ecr.outcome != 'success' }} 
-      uses: Ilshidur/action-slack@2.1.0
-      with: 
-        args: ">*BUILD: :red_circle: ${{ env.SERVICE }}:${{ env.SHORT_SHA }} *\n>*Reason:* Step - Publish artifact failed.\n>*Commit:* <{{GITHUB_SERVER_URL}}/{{GITHUB_REPOSITORY}}/commit/{{GITHUB_SHA}}| {{SHORT_SHA}}> by <{{GITHUB_SERVER_URL}}/{{GITHUB_REPOSITORY}}/commits/?author={{GITHUB_ACTOR}}| {{GITHUB_ACTOR}}>\n>*Run Log:* <{{GITHUB_SERVER_URL}}/{{GITHUB_REPOSITORY}}/actions/runs/{{GITHUB_RUN_ID}}| {{GITHUB_SERVER_URL}}/{{GITHUB_REPOSITORY}}/actions/runs/{{GITHUB_RUN_ID}}>"  
-          
-    #      REPOSITORY=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
-    #      echo $REPOSITORY
-               
-    - name: print repo name and create artifacts
-      run: |
-        echo "${{ env.REPOSITORY }}" | sed "s/-//" >> artifacts/service.value
-        echo "${{ env.REPOSITORY }}" >> artifacts/repository.value
-        cat artifacts/service.value
-        cat artifacts/repository.value
-        echo "env repo : ${{ env.REPOSITORY }}"
-        echo "git commit sha from job 1=$GITHUB_SHA"
-        
-    - name: 'Upload Artifact'
-      uses: actions/upload-artifact@v2
+    - name: Checkout source code
+      uses: actions/checkout@v2
       with:
-        name: artifacts
-        path: artifacts
-        retention-days: 1
-  
-  job2:
-    runs-on: ubuntu-20.04
-    needs: job1
-#    env:
-#      VARIABLE: CidrBlock
-    steps:
-    
-    - name: 'Download Artifact'
-      uses: actions/download-artifact@v2
-      with:
-        name: artifacts
-    
-    - name: extracting REPO name from artifact
+       fetch-depth: 0
+
+    - name: Code build
+      id: code-build
       run: |
-        ls -al
-        cat repository.value
-        cat service.value
-        echo "SERVICE=$(cat service.value)" >> $GITHUB_ENV
-        echo "REPOSITORY=$(cat repository.value)" >> $GITHUB_ENV
+        featureFlags=""
+        while read line
+        do
+          featureFlags="${featureFlags} $line"
+        done < ./.env-flags
+        
+        echo "Feature Flags is: ${featureFlags}"
   
-    - name: printing variables
-      id: job2step
-      run: |
-          echo "service name=${{ env.SERVICE }}"
-          echo "repo name= ${{ env.REPOSITORY }}"
-
-  #    - name: Set status check for deployment
-  #      if: ${{ steps.job2step.outcome != 'success' }} 
-  #      uses: ouzi-dev/commit-status-updater@v1.1.0
-  #      with:
-  #        status: "failure"
-  #        url: "https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}?check_suite_focus=true"
-  #        description: " Service start failed"
-  #        name: "Deployment"
-  #        
-
-
+        echo "Yarn install"
+        CI=true NODE_ENV=dev npx yarn install
+        
+        echo "Yarn build"
+        `${featureFlags} npx yarn build`
+        
+        echo "Yarn test"
+        npx yarn test --coverage --watchAll=false
+        
