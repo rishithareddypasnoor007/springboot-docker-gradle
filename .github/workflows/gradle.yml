@@ -5,7 +5,16 @@ name: Java CI with Gradle
 
 on:
   
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+       envname:
+         description: |
+            'Deployment Environment'
+            line 2
+            line 3
+         required: false
+         default: 'DEVINT'
+      
 #  push:
 # branches: [ master ]
 jobs:
