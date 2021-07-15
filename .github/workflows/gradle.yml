@@ -9,8 +9,8 @@ on:
     inputs:
        envname:
          description: |
-            'Deployment Environment'\\n
-            line 2 \\n
+            'Deployment Environment'<br>
+            line 2 <br>
             line 3
          required: false
          default: 'DEVINT'
