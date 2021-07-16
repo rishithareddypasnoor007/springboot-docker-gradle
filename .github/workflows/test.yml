@@ -45,7 +45,7 @@ jobs:
         CI=true NODE_ENV=dev npx yarn install
         
         echo "Yarn build"
-        $featureFlags npx yarn build
+        echo $featureFlags | npx yarn build
         
         echo "Yarn test"
         npx yarn test --coverage --watchAll=false
