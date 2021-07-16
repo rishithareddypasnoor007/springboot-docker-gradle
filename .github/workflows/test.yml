@@ -36,16 +36,16 @@ jobs:
         featureFlags=""
         while read line
         do
-          featureFlags="${featureFlags} $line"
+          featureFlags="$featureFlags $line"
         done < ./.env-flags
         
-        echo "Feature Flags is: ${featureFlags}"
+        echo "Feature Flags is: $featureFlags"
   
         echo "Yarn install"
         CI=true NODE_ENV=dev npx yarn install
         
         echo "Yarn build"
-        `${featureFlags} npx yarn build`
+        $featureFlags npx yarn build
         
         echo "Yarn test"
         npx yarn test --coverage --watchAll=false
