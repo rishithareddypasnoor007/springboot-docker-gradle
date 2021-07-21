@@ -11,7 +11,7 @@ on:
   
 
   push:
-    branches: [ master ]
+    branches: [ dev ]
 
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
   job1:
     name: Job1
     runs-on: ubuntu-20.04
-    environment: QA
+    environment: DEV
  #   env:
 #      VARIABLE: CidrBlock
     steps:
