@@ -33,4 +33,4 @@ jobs:
    
     - name: Display file
       run: |
-        cat $GITHUB_WORKSPACE/.github/workspace/dev.yml
+        cat $GITHUB_WORKSPACE/.github/workflows/dev.yml
