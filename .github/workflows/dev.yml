@@ -1,0 +1,33 @@
+name: testing script
+
+on:
+#    workflow_dispatch
+#  push:
+#    paths-ignore:
+#      - '.github/workflows/gradle.yml'
+#      - 'README.md'
+#  schedule:
+#   - cron: '*/5 * * * *'
+  
+
+  push:
+    branches: [ master ]
+
+
+jobs:
+  #if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+  job1:
+    name: Job1
+    runs-on: ubuntu-20.04
+    environment: QA
+ #   env:
+#      VARIABLE: CidrBlock
+    steps:
+    
+    - name: Checkout source code
+      uses: actions/checkout@v2
+      with:
+       fetch-depth: 0
+
+   
