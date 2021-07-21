@@ -1,4 +1,4 @@
-name: testing script
+name: dev workflow
 
 on:
 #    workflow_dispatch
