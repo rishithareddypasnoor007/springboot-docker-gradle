@@ -29,3 +29,8 @@ jobs:
       uses: actions/checkout@v2
       with:
        fetch-depth: 0
+       ref: master
+   
+    - name: Display file
+      run: |
+        cat $GITHUB_WORKSPACE/.github/workspace/dev.yml
