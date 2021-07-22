@@ -1,0 +1,99 @@
+name: Check status of workflows
+on:
+  workflow_dispatch
+  #  schedule:
+#  - cron: '0 15 * * *'
+
+jobs:
+  check:
+    env:
+      FILE_PATH: './.github/workflows'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+      with:
+        ref: ci
+
+    - name: Install yq
+      run: |
+        sudo wget -LO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/3.3.0/yq_linux_amd64
+        sudo chmod +x /usr/local/bin/yq
+    
+    - name: Passing private key
+      run: |
+         mkdir ~/.ssh
+         echo "${{ secrets.DEV1_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+    
+    - name: Status Check
+      id: status-check
+      env:
+        TOKEN: ${{ secrets.PAT }}
+      run: |
+        ${{ env.FILE_PATH }}/generate.sh -o ${{ env.FILE_PATH }}/dashboard.md -i ${{ env.FILE_PATH }}/repositories.list
+        if [ -z "$(git status -s -- ${{ env.FILE_PATH }}/dashboard.md)" ]; then
+          echo No changes to commit
+          exit 0
+        fi
+        git commit -am "Updating ACTIONS status"
+        echo "Updated dashboard."
+        rm ~/.ssh/id_rsa
+
+    - name: Pushing status update to dashboard
+      if: ${{ steps.status-check.outcome == 'success' }}
+      id: update-manifest
+      uses: ad-m/github-push-action@master
+      with:
+        repository: Cowbell-Cyber/server-config
+        github_token: ${{ secrets.PAT }}
+        branch: ciname: Check status of workflows
+on:
+  workflow_dispatch
+  #  schedule:
+#  - cron: '0 15 * * *'
+
+jobs:
+  check:
+    env:
+      FILE_PATH: './.github/workflows'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+      with:
+        ref: ci
+
+    - name: Install yq
+      run: |
+        sudo wget -LO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/3.3.0/yq_linux_amd64
+        sudo chmod +x /usr/local/bin/yq
+    
+    - name: Passing private key
+      run: |
+         mkdir ~/.ssh
+         echo "${{ secrets.DEV1_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+    
+    - name: Status Check
+      id: status-check
+      env:
+        TOKEN: ${{ secrets.PAT }}
+      run: |
+        ${{ env.FILE_PATH }}/generate.sh -o ${{ env.FILE_PATH }}/dashboard.md -i ${{ env.FILE_PATH }}/repositories.list
+        if [ -z "$(git status -s -- ${{ env.FILE_PATH }}/dashboard.md)" ]; then
+          echo No changes to commit
+          exit 0
+        fi
+        git commit -am "Updating ACTIONS status"
+        echo "Updated dashboard."
+        rm ~/.ssh/id_rsa
+
+    - name: Pushing status update to dashboard
+      if: ${{ steps.status-check.outcome == 'success' }}
+      id: update-manifest
+      uses: ad-m/github-push-action@master
+      with:
+        repository: Cowbell-Cyber/server-config
+        github_token: ${{ secrets.PAT }}
+        branch: ci
