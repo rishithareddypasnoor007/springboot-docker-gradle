@@ -28,27 +28,6 @@ docker {
 	buildArgs(['JAR_FILE': "app.jar"])
 }
 
-#bootJar {
-#	layered {
-#		application {
-#			intoLayer("spring-boot-loader") {
-#				include "org/springframework/boot/loader/**"
-#			}
-#			intoLayer("application")
-#		}
-#		dependencies {
-#			intoLayer("application") {
-#				includeProjectDependencies()
-#			}
-#			intoLayer("snapshot-dependencies") {
-#				include "*:*:*SNAPSHOT"
-#			}
-#			intoLayer("dependencies")
-#		}
-#		layerOrder = ["dependencies", "spring-boot-loader", "snapshot-dependencies", "application"]
-#	}
-#}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
