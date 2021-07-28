@@ -1,4 +1,4 @@
-name: master workflow
+name: workflow inside folder
 
 on:
 #    workflow_dispatch
