@@ -29,6 +29,10 @@ jobs:
       run: |
         cat /proc/sys/kernel/pid_max
         
+    - name: print number of threads
+      run: |    
+        cat /proc/sys/kernel/threads-max
+        
     - name: Checkout source code
       uses: actions/checkout@v2
       with:
