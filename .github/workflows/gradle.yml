@@ -25,6 +25,10 @@ jobs:
 #      VARIABLE: CidrBlock
     steps:
     
+    - name: print number of processes
+      run: |
+        cat /proc/sys/kernel/pid_max
+        
     - name: Checkout source code
       uses: actions/checkout@v2
       with:
