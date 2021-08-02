@@ -46,8 +46,12 @@ jobs:
          echo "tag number is ${{ env.TAG_VERSION }}"   
   
     - name: Create git Tag
+      id: create-git-tag
       uses: negz/create-tag@v1
       with:
         version: ${{ env.TAG_VERSION }}
         message: version  ${{ env.TAG_VERSION }}
         token: ${{ secrets.PAT }}
+    
+    - name: Validating Git tag
+      run: ${{ steps.create-git-tag.outputs }}
