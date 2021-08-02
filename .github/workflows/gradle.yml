@@ -9,12 +9,8 @@ on:
 #  schedule:
 #   - cron: '*/5 * * * *'
   
-
   push:
     branches: [ master ]
-
-
-
 
 jobs:
   #if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -56,4 +52,4 @@ jobs:
         token: ${{ secrets.PAT }}
     
     - name: Validating Git tag
-      run: ${{ steps.create-git-tag.outputs }}
+      run: echo "${{ steps.create-git-tag.outputs }}"
