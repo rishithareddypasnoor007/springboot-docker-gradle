@@ -55,7 +55,7 @@ jobs:
     
     - name: Validating Git tag
       if: always()
-      run: echo "${{ steps.create-git-tag.ootcome }}"
+      run: echo "${{ steps.create-git-tag.outcome }}"
       
     - name: Dump steps context
       if: always()
