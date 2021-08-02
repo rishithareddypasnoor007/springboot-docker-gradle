@@ -24,7 +24,11 @@ jobs:
  #   env:
 #      VARIABLE: CidrBlock
     steps:
-    
+    - name: Checkout source code
+      uses: actions/checkout@v2
+      with:
+       fetch-depth: 0 
+       
     - name: Git checkout
       run: |
         echo "Tag before checkout=$(git describe --tags --abbrev=0)"
