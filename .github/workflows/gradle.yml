@@ -54,9 +54,11 @@ jobs:
         token: ${{ secrets.PAT }}
     
     - name: Validating Git tag
+      if: always()
       run: echo "${{ steps.create-git-tag.ootcome }}"
       
     - name: Dump steps context
+      if: always()
       env:
           STEPS_CONTEXT: ${{ toJson(steps) }}
       run: echo "$STEPS_CONTEXT"
