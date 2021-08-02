@@ -25,39 +25,17 @@ jobs:
 #      VARIABLE: CidrBlock
     steps:
     
-    - name: print number of processes
+    - name: Git checkout
       run: |
-        cat /proc/sys/kernel/pid_max
+        echo "Tag before checkout=$(git describe --tags --abbrev=0)"
+        git fetch --tags --force
+        echo "Tag after checkout=$(git describe --tags --abbrev=0)"
         
-    - name: print number of threads
-      run: |    
-        cat /proc/sys/kernel/threads-max
-        
-    - name: Checkout source code
-      uses: actions/checkout@v2
-      with:
-       fetch-depth: 0
+    - name: Get tag number
+      id: tag-version
+      run: |
+         echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
          
-    - name: Set up JDK 12
-      uses: actions/setup-java@v2
-      with:
-        java-version: '12'
-        distribution: 'adopt' 
-  
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-      
-    - name: Cache Gradle packages
-      uses: actions/cache@v2
-      with:
-          path: |
-             ~/.gradle/caches
-             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      
-    - name: Build with Gradle
-      id: code-build
+    - name: Log tag number
       run: |
-        ./gradlew clean build   
+         echo "tag number is ${{ env.TAG_VERSION }}"   
