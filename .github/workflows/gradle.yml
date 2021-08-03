@@ -69,26 +69,26 @@ jobs:
       run: echo "$STEPS_CONTEXT"
       
     - name: Git checkout - if create tag fails
-      if: ${{ steps.creat-git-tag.outcome == 'failure' }}
+      if: ${{ always() && steps.creat-git-tag.outcome == 'failure' }}
       run: |
         echo "Tag before checkout=$(git describe --tags --abbrev=0)"
         git fetch --tags --force
         echo "Tag after checkout=$(git describe --tags --abbrev=0)"
    
     - name: Get tag number - if create tag fails
-      if: ${{ steps.creat-git-tag.outcome == 'failure' }}
+      if: ${{ always() && steps.creat-git-tag.outcome == 'failure' }}
       run: |
         chmod +x $GITHUB_WORKSPACE/.github/workflows/gitTags.sh
         echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
          
     - name: Log tag - if create tag fails
-      if: ${{ steps.creat-git-tag.outcome == 'failure' }}
+      if: ${{ always() && steps.creat-git-tag.outcome == 'failure' }}
       run: |
         echo "tag number is ${{ env.TAG_VERSION }}" 
         
     - name: Create tag - if create tag fails
       id: retry-git-tag
-      if: ${{ steps.creat-git-tag.outcome == 'failure' }}
+      if: ${{ always() && steps.creat-git-tag.outcome == 'failure' }}
       run: |
         git tag -a ${{ env.TAG_VERSION }} -m "tag for commit ${{ env.SHORT_SHA }}"
         
