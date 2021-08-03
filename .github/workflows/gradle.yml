@@ -56,7 +56,10 @@ jobs:
     - name: Create tag - if create tag fails
       id: create-git-tag
       run: |
+        git config --local user.email "rishitha@gmail.com"
+        git config --local user.name "rishitha"
         git tag -a ${{ env.TAG_VERSION }} -m "tag for commit ${{ env.SHORT_SHA }}"
+        git push origin --tags
     
     - name: Validating Git tag
       if: always()
@@ -93,4 +96,5 @@ jobs:
         git config --local user.email "rishitha@gmail.com"
         git config --local user.name "rishitha"
         git tag -a ${{ env.TAG_VERSION }} -m "tag for commit ${{ env.SHORT_SHA }}"
+        git push origin --tags
         
