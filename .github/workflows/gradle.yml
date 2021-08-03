@@ -48,7 +48,7 @@ jobs:
       run: |
          chmod +x $GITHUB_WORKSPACE/.github/workflows/gitTags.sh
          echo "TAG_VERSION=0.1.1" >> $GITHUB_ENV
-         echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
+#         echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
          
     - name: Log tag number
       run: |
@@ -64,7 +64,7 @@ jobs:
     - name: Push tag
       run: |
         echo "${{ steps.create-git-tag.outputs.TAG_VALUE }}"
-#        git push origin ${{ env.TAG_VERSION }}
+        git push origin ${{ env.TAG_VERSION }}
     
     - name: Validating Git tag
       if: always()
