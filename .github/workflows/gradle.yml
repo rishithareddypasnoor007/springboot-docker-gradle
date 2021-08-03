@@ -64,6 +64,7 @@ jobs:
         echo "::set-output name=TAG_VALUE::$TAG_OUTPUT"
       
     - name: Push tag
+      if: always()
       run: |
         echo "TAG_OUTPUT=${{ env.TAG_OUTPUT }}"
         echo "${{ steps.create-git-tag.outputs.TAG_VALUE }}"
