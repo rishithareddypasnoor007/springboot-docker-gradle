@@ -27,6 +27,14 @@ jobs:
       uses: actions/checkout@v2
       with:
        fetch-depth: 0 
+   
+    - name: Git SHA for slack notifications
+      run: |
+        echo "SHORT_SHA=`echo $GITHUB_SHA | cut -c1-8`" >> $GITHUB_ENV
+        
+    - name: Log git SHA
+      run: |
+        echo "Git SHA is ${{ env.SHORT_SHA }}"
        
     - name: Git checkout
       run: |
@@ -45,13 +53,10 @@ jobs:
       run: |
          echo "tag number is ${{ env.TAG_VERSION }}"   
   
-    - name: Create git Tag
+    - name: Create tag - if create tag fails
       id: create-git-tag
-      uses: negz/create-tag@v1
-      with:
-        version: ${{ env.TAG_VERSION }}
-        message: version  ${{ env.TAG_VERSION }}
-        token: ${{ secrets.PAT }}
+      run: |
+        git tag -a ${{ env.TAG_VERSION }} -m "tag for commit ${{ env.SHORT_SHA }}"
     
     - name: Validating Git tag
       if: always()
@@ -62,3 +67,28 @@ jobs:
       env:
           STEPS_CONTEXT: ${{ toJson(steps) }}
       run: echo "$STEPS_CONTEXT"
+      
+    - name: Git checkout - if create tag fails
+      if: ${{ steps.creat-git-tag.outcome == 'failure' }}
+      run: |
+        echo "Tag before checkout=$(git describe --tags --abbrev=0)"
+        git fetch --tags --force
+        echo "Tag after checkout=$(git describe --tags --abbrev=0)"
+   
+    - name: Get tag number - if create tag fails
+      if: ${{ steps.creat-git-tag.outcome == 'failure' }}
+      run: |
+        chmod +x $GITHUB_WORKSPACE/.github/workflows/gitTags.sh
+        echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
+         
+    - name: Log tag - if create tag fails
+      if: ${{ steps.creat-git-tag.outcome == 'failure' }}
+      run: |
+        echo "tag number is ${{ env.TAG_VERSION }}" 
+        
+    - name: Create tag - if create tag fails
+      id: retry-git-tag
+      if: ${{ steps.creat-git-tag.outcome == 'failure' }}
+      run: |
+        git tag -a ${{ env.TAG_VERSION }} -m "tag for commit ${{ env.SHORT_SHA }}"
+        
