@@ -108,3 +108,18 @@ jobs:
       if: ${{ always() && steps.create-git-tag.outcome == 'failure' }}
       run: |
         git push origin ${{ env.TAG_VERSION }}
+
+    - name: Push tag
+      run: |
+        echo "${{needs.job1.outputs.tag}}"
+#        git push origin ${{ env.TAG_VERSION }}
+
+  job2:
+    name: Job2
+    runs-on: ubuntu-20.04
+      
+    steps:
+    - name: Push tag
+      run: |
+        echo "${{needs.job1.outputs.tag}}"
+#        git push origin ${{ env.TAG_VERSION }}
