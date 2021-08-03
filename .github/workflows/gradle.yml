@@ -15,13 +15,16 @@ on:
 
 jobs:
   #if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
+      
   job1:
     name: Job1
     runs-on: ubuntu-20.04
     environment: STG
  #   env:
 #      VARIABLE: CidrBlock
+    outputs:
+      tag: ${{ steps.create-git-tag.outputs.tag }}
+      
     steps:
     - name: Checkout source code
       uses: actions/checkout@v2
@@ -53,16 +56,17 @@ jobs:
       run: |
          echo "tag number is ${{ env.TAG_VERSION }}"   
   
-    - name: Create tag - if create tag fails
+    - name: Create tag
       id: create-git-tag
       run: |
         git config --local user.email "rishitha@gmail.com"
         git config --local user.name "rishitha"
-        git tag -a ${{ env.TAG_VERSION }} -m "tag for commit ${{ env.SHORT_SHA }}"
-        
+        echo '::set-output name=tag::$(git tag -a ${{ env.TAG_VERSION }} -m "tag for commit ${{ env.SHORT_SHA }})"'
+      
     - name: Push tag
       run: |
-        git push origin ${{ env.TAG_VERSION }}
+        echo "${{needs.job1.outputs.tag}}"
+#        git push origin ${{ env.TAG_VERSION }}
     
     - name: Validating Git tag
       if: always()
