@@ -22,8 +22,6 @@ jobs:
     environment: STG
  #   env:
 #      VARIABLE: CidrBlock
-    outputs:
-      tag: ${{ steps.create-git-tag.outputs.tag }}
       
     steps:
     - name: Checkout source code
@@ -111,16 +109,6 @@ jobs:
 
     - name: Push tag
       run: |
-        echo "${{needs.job1.outputs.tag}}"
+        echo "${{ steps.create-git-tag.outputs.TAG_VALUE }}"
 #        git push origin ${{ env.TAG_VERSION }}
 
-  job2:
-    name: Job2
-    needs: job1
-    runs-on: ubuntu-20.04
-      
-    steps:
-    - name: Push tag
-      run: |
-        echo "${{needs.job1.outputs.tag}}"
-#        git push origin ${{ env.TAG_VERSION }}
