@@ -90,5 +90,7 @@ jobs:
       id: retry-git-tag
       if: ${{ always() && steps.create-git-tag.outcome == 'failure' }}
       run: |
+        git config --local user.email "rishitha@gmail.com"
+        git config --local user.name "rishitha"
         git tag -a ${{ env.TAG_VERSION }} -m "tag for commit ${{ env.SHORT_SHA }}"
         
