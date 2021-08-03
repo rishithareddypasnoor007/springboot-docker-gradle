@@ -61,7 +61,7 @@ jobs:
       run: |
         git config --local user.email "rishitha@gmail.com"
         git config --local user.name "rishitha"
-        echo "::set-output name=TAG_VALUE::`git tag -a ${{ env.TAG_VERSION }} -m 'tag for commit ${{ env.SHORT_SHA }}'`"
+        echo "::set-output name=TAG_VALUE::$(git tag -a ${{ env.TAG_VERSION }} -m 'tag for commit ${{ env.SHORT_SHA }}')"
       
     - name: Push tag
       run: |
