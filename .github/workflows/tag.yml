@@ -19,7 +19,7 @@ jobs:
       uses: actions/checkout@v2
       with:
        fetch-depth: 0
-       token: ${{ secrets.PAT }}
+#       token: ${{ secrets.PAT }}
    
     - name: Git SHA for slack notifications
       run: |
@@ -44,17 +44,24 @@ jobs:
     - name: Log tag number
       run: |
          echo "tag number is ${{ env.TAG_VERSION }}"   
+         
+    - name: Create git Tag
+      uses: negz/create-tag@v1
+      with:
+        version: ${{ env.TAG_VERSION }}
+        message: version  ${{ env.TAG_VERSION }}
+        token: ${{ secrets.PAT }}
   
-    - name: Create tag
-      id: create-git-tag
-      run: |
-        git config --local user.email "rishitha@gmail.com"
-        git config --local user.name "rishitha"
-        git tag -a ${{ env.TAG_VERSION }} -m 'tag for commit ${{ env.SHORT_SHA }}'
-      
-    - name: Push tag
-      run: |
-        git push origin ${{ env.TAG_VERSION }}
+#    - name: Create tag
+#      id: create-git-tag
+#      run: |
+#        git config --local user.email "rishitha@gmail.com"
+#        git config --local user.name "rishitha"
+#        git tag -a ${{ env.TAG_VERSION }} -m 'tag for commit ${{ env.SHORT_SHA }}'
+#      
+#    - name: Push tag
+#      run: |
+#        git push origin ${{ env.TAG_VERSION }}
     
     - name: Validating Git tag
       if: always()
