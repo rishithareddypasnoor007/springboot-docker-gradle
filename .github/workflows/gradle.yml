@@ -11,7 +11,8 @@ on:
   
   push:
     branches: [ master ]
-
+    
+concurrency: master
 
 jobs:
   #if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -19,10 +20,7 @@ jobs:
   job1:
     name: Job1
     runs-on: ubuntu-20.04
-    environment: STG
- #   env:
-#      VARIABLE: CidrBlock
-      
+    
     steps:
     - name: Checkout source code
       uses: actions/checkout@v2
@@ -47,8 +45,7 @@ jobs:
       id: tag-version
       run: |
          chmod +x $GITHUB_WORKSPACE/.github/workflows/gitTags.sh
-         echo "TAG_VERSION=0.1.1" >> $GITHUB_ENV
-#         echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
+         echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
          
     - name: Log tag number
       run: |
@@ -59,16 +56,10 @@ jobs:
       run: |
         git config --local user.email "rishitha@gmail.com"
         git config --local user.name "rishitha"
-        TAG_OUTPUT=$(git tag -a ${{ env.TAG_VERSION }} -m 'tag for commit ${{ env.SHORT_SHA }}')
-        echo "TAG_OUTPUT=$TAG_OUTPUT"
-        echo "TAG_OUTPUT=$TAG_OUTPUT" >> $GITHUB_ENV
-        echo "::set-output name=TAG_VALUE::$TAG_OUTPUT"
+        git tag -a ${{ env.TAG_VERSION }} -m 'tag for commit ${{ env.SHORT_SHA }}'
       
     - name: Push tag
-      if: always()
       run: |
-        echo "TAG_OUTPUT=${{ env.TAG_OUTPUT }}"
-        echo "${{ steps.create-git-tag.outputs.TAG_VALUE }}"
         git push origin ${{ env.TAG_VERSION }}
     
     - name: Validating Git tag
@@ -81,39 +72,3 @@ jobs:
           STEPS_CONTEXT: ${{ toJson(steps) }}
       run: echo "$STEPS_CONTEXT"
       
-    - name: Git checkout - if create tag fails
-      if: ${{ always() && steps.create-git-tag.outcome == 'failure' }}
-      run: |
-        echo "Tag before checkout=$(git describe --tags --abbrev=0)"
-        git fetch --tags --force
-        echo "Tag after checkout=$(git describe --tags --abbrev=0)"
-   
-    - name: Get tag number - if create tag fails
-      if: ${{ always() && steps.create-git-tag.outcome == 'failure' }}
-      run: |
-        chmod +x $GITHUB_WORKSPACE/.github/workflows/gitTags.sh
-        echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
-         
-    - name: Log tag - if create tag fails
-      if: ${{ always() && steps.create-git-tag.outcome == 'failure' }}
-      run: |
-        echo "tag number is ${{ env.TAG_VERSION }}" 
-        
-    - name: Create tag - if create tag fails
-      id: retry-git-tag
-      if: ${{ always() && steps.create-git-tag.outcome == 'failure' }}
-      run: |
-        git config --local user.email "rishitha@gmail.com"
-        git config --local user.name "rishitha"
-        git tag -a ${{ env.TAG_VERSION }} -m "tag for commit ${{ env.SHORT_SHA }}"
-        
-    - name: Push tag
-      if: ${{ always() && steps.create-git-tag.outcome == 'failure' }}
-      run: |
-        git push origin ${{ env.TAG_VERSION }}
-
-    - name: Push tag
-      run: |
-        echo "${{ steps.create-git-tag.outputs.TAG_VALUE }}"
-#        git push origin ${{ env.TAG_VERSION }}
-
