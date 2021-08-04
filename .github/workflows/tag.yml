@@ -1,4 +1,4 @@
-name: master workflow
+name: tag workflow
 
 on:
 #    workflow_dispatch
