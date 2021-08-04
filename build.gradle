@@ -5,6 +5,8 @@ plugins {
     id 'com.palantir.docker' version '0.22.1'
 }
 
+
+
 group = 'com.codeinvestigator'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '12'
