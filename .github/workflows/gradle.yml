@@ -64,5 +64,6 @@ jobs:
       if: always()
       env:
           STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: echo "$STEPS_CONTEXT"
-      
+      run: |
+        echo "$STEPS_CONTEXT"
+        sleep 10
