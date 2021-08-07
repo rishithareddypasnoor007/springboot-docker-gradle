@@ -29,8 +29,3 @@ jobs:
     - name: sleep
       run: |
           sleep 120
-          
-    - name: echo job status
-      if: always()
-      run: |
-        echo "${{ job.job1.status }}"
