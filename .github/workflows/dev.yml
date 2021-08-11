@@ -18,13 +18,17 @@ jobs:
     name: Job1
     runs-on: ubuntu-20.04
     timeout-minutes: 1
-   
+    
     steps:
     
     - name: Checkout source code
       uses: actions/checkout@v2
       with:
        fetch-depth: 0
+    
+    - name: fail step
+      run : |
+        pwds
     
     - name: sleep
       run: |
