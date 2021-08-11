@@ -18,7 +18,8 @@ jobs:
     name: Job1
     runs-on: ubuntu-20.04
     timeout-minutes: 1
-    
+    outputs:
+      STATUS: ${{ steps.step1.outputs.status }}
     steps:
     
     - name: Checkout source code
@@ -33,7 +34,7 @@ jobs:
     - name: Status
       if: always()
       run: |
-        echo "${{ job.status }}"
+        echo "::set-output name=status::${{ job.status }}"
   
   job2:
     name: Job2
@@ -46,4 +47,4 @@ jobs:
     steps:
     - name: Notification
       run: |
-        echo "${{ needs.job1.result }}"
+        echo "${{needs.job1.outputs.STATUS}}"
