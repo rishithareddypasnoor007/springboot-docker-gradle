@@ -29,6 +29,11 @@ jobs:
     - name: sleep
       run: |
           sleep 90
+          
+    - name: Status
+      if: always()
+      run: |
+        echo "${{ jobs.job1.outcome }}"
   
   job2:
     name: Job2
