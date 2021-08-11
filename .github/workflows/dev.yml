@@ -26,10 +26,6 @@ jobs:
       with:
        fetch-depth: 0
     
-    - name: fail step
-      run : |
-        pwds
-    
     - name: sleep
       run: |
           sleep 90
