@@ -33,7 +33,7 @@ jobs:
     - name: Status
       if: always()
       run: |
-        echo "${{ jobs.job1.outcome }}"
+        echo "${{ job.status }}"
   
   job2:
     name: Job2
