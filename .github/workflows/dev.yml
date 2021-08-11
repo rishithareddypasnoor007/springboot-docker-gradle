@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-20.04
     timeout-minutes: 1
     outputs:
-      STATUS: ${{ steps.step1.outputs.status }}
+      STATUS: ${{ steps.final-status.outputs.status }}
     steps:
     
     - name: Checkout source code
@@ -32,6 +32,7 @@ jobs:
           sleep 90
           
     - name: Status
+      id: final-status
       if: always()
       run: |
         echo "::set-output name=status::${{ job.status }}"
