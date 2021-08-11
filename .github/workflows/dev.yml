@@ -36,16 +36,18 @@ jobs:
       if: always()
       run: |
         echo "::set-output name=status::${{ job.status }}"
+        echo "JOB STATUS= ${{ job.status }}"
   
   job2:
     name: Job2
     runs-on: ubuntu-20.04
     timeout-minutes: 1
     needs: job1
-#    if: always()
-    if: ${{ always() && needs.job1.result == 'failure' }}
+    if: always()
+#    if: ${{ always() && needs.job1.result == 'failure' }}
     
     steps:
     - name: Notification
       run: |
+        echo "needs result= ${{needs.job1.result}}"
         echo "${{needs.job1.outputs.STATUS}}"
