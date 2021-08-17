@@ -24,6 +24,8 @@ jobs:
     - name: Version of aws
       run: |
           touch test.txt
+          git config --global user.email "rishitha@example.com"
+          git config --global user.name "rishitha"
           git add test.txt
           git commit -m "adding new file"
           git push origin master
