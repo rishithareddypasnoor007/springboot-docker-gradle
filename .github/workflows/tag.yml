@@ -32,8 +32,8 @@ jobs:
           
     - name: Get latest git commit
       run: |
-        echo "latest tag"
-        git describe --tags --abbrev=0
+        echo "latest commit"
+        git rev-parse HEAD
         
 #    - name: Git SHA for slack notifications
 #      run: |
