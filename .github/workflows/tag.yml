@@ -20,40 +20,45 @@ jobs:
       with:
        fetch-depth: 0
 #       token: ${{ secrets.PAT }}
-   
-    - name: Git SHA for slack notifications
+
+    - name: Version of aws
       run: |
-        echo "SHORT_SHA=`echo $GITHUB_SHA | cut -c1-8`" >> $GITHUB_ENV
+        aws --help
+        aws --version
         
-    - name: Log git SHA
-      run: |
-        echo "Git SHA is ${{ env.SHORT_SHA }}"
+#    - name: Git SHA for slack notifications
+#      run: |
+#        echo "SHORT_SHA=`echo $GITHUB_SHA | cut -c1-8`" >> $GITHUB_ENV
+        
+#    - name: Log git SHA
+#      run: |
+#        echo "Git SHA is ${{ env.SHORT_SHA }}"
        
-    - name: Git checkout
-      run: |
-        echo "Tag before checkout=$(git describe --tags --abbrev=0)"
-        git fetch --tags --force
-        echo "Tag after checkout=$(git describe --tags --abbrev=0)"
+#    - name: Git checkout
+#      run: |
+#        echo "Tag before checkout=$(git describe --tags --abbrev=0)"
+#        git fetch --tags --force
+#        echo "Tag after checkout=$(git describe --tags --abbrev=0)"
         
-    - name: Get tag number
-      id: tag-version
-      run: |
-         chmod +x $GITHUB_WORKSPACE/.github/workflows/gitTags.sh
-         echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
-         
-    - name: Log tag number
-      run: |
-         echo "tag number is ${{ env.TAG_VERSION }}"   
-         
-    - name: Create git Tag
-      uses: negz/create-tag@v1
-      with:
-        version: ${{ env.TAG_VERSION }}
-        message: version  ${{ env.TAG_VERSION }}
-        token: ${{ secrets.PAT }}
-  
-#    - name: Create tag
-#      id: create-git-tag
+#    - name: Get tag number
+#      id: tag-version
+#      run: |
+#         chmod +x $GITHUB_WORKSPACE/.github/workflows/gitTags.sh
+#         echo "TAG_VERSION=$($GITHUB_WORKSPACE/.github/workflows/gitTags.sh)" >> $GITHUB_ENV
+#         
+#    - name: Log tag number
+#      run: |
+#         echo "tag number is ${{ env.TAG_VERSION }}"   
+#         
+#    - name: Create git Tag
+#      uses: negz/create-tag@v1
+#      with:
+#        version: ${{ env.TAG_VERSION }}
+#        message: version  ${{ env.TAG_VERSION }}
+#        token: ${{ secrets.PAT }}
+#  
+##    - name: Create tag
+##      id: create-git-tag
 #      run: |
 #        git config --local user.email "rishitha@gmail.com"
 #        git config --local user.name "rishitha"
@@ -63,14 +68,14 @@ jobs:
 #      run: |
 #        git push origin ${{ env.TAG_VERSION }}
     
-    - name: Validating Git tag
-      if: always()
-      run: echo "${{ steps.create-git-tag.outcome }}"
-      
-    - name: Dump steps context
-      if: always()
-      env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: |
-        echo "$STEPS_CONTEXT"
-        sleep 10
+ #   - name: Validating Git tag
+ #     if: always()
+ #     run: echo "${{ steps.create-git-tag.outcome }}"
+ #     
+ #   - name: Dump steps context
+ #     if: always()
+ #     env:
+ #         STEPS_CONTEXT: ${{ toJson(steps) }}
+ #     run: |
+ #       echo "$STEPS_CONTEXT"
+ #       sleep 10
