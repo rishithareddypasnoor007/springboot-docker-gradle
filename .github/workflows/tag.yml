@@ -23,8 +23,15 @@ jobs:
 
     - name: Version of aws
       run: |
-        aws --help
-        aws --version
+          touch test.txt
+          git add test.txt
+          git commit -m "adding new file"
+          git push origin master
+          
+    - name: Get latest git commit
+      run: |
+        echo "latest tag"
+        git describe --tags --abbrev=0
         
 #    - name: Git SHA for slack notifications
 #      run: |
