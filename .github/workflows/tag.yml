@@ -21,19 +21,16 @@ jobs:
        fetch-depth: 0
 #       token: ${{ secrets.PAT }}
 
-    - name: Version of aws
+    - uses: actions/setup-node@v2
+      with:
+       node-version: '14'
+       cache: yarn
+       cache-dependency-path: '**/yarn.lock'
+       
+    - name: yarn cache dir
       run: |
-          touch test.txt
-          git config --global user.email "rishitha@example.com"
-          git config --global user.name "rishitha"
-          git add test.txt
-          git commit -m "adding new file"
-          git push origin master
-          
-    - name: Get latest git commit
-      run: |
-        echo "latest commit"
-        git rev-parse HEAD
+        cd $(yarn cache dir)
+        ls -al
         
 #    - name: Git SHA for slack notifications
 #      run: |
