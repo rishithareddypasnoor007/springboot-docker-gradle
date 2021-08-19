@@ -16,7 +16,7 @@ jobs:
   job1:
     name: Job1
     runs-on: ubuntu-20.04
-    timeout-minutes: 1
+    timeout-minutes: 4
     outputs:
       STATUS: ${{ steps.final-status.outputs.status }}
     steps:
@@ -28,7 +28,7 @@ jobs:
     
     - name: sleep
       run: |
-          sleep 90
+          sleep 30
           
     - name: Status
       id: final-status
