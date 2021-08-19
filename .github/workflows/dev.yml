@@ -1,8 +1,10 @@
 name: dev workflow
 
 on:
-    workflow_dispatch
-#  push:
+#    workflow_dispatch
+  push:
+    paths:
+        - '.github/workflows/dev.yml'
 #    paths-ignore:
 #      - '.github/workflows/gradle.yml'
 #      - 'README.md'
@@ -37,6 +39,11 @@ jobs:
       run: |
         echo "::set-output name=status::${{ job.status }}"
         echo "JOB STATUS= ${{ job.status }}"
+  
+    - name: Cancelled notification
+      if: ${{ cancelled() }}
+      run: |
+        echo "Workflow Cancelled"
   
   job2:
     name: Job2
