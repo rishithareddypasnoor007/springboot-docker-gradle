@@ -37,17 +37,11 @@ jobs:
         echo "::set-output name=status::${{ job.status }}"
         echo "JOB STATUS= ${{ job.status }}"
   
-    - name: Cancelled notification
-      if: ${{ cancelled() }}
-      run: |
-        echo "Workflow Cancelled"
-  
   job2:
     name: Job2
     runs-on: ubuntu-20.04
     timeout-minutes: 1
     needs: job1
-    if: always()
 #    if: ${{ always() && needs.job1.result == 'failure' }}
     
     steps:
@@ -55,3 +49,8 @@ jobs:
       run: |
         echo "needs result= ${{needs.job1.result}}"
         echo "${{needs.job1.outputs.STATUS}}"
+        
+    - name: Cancelled notification
+      if: ${{ cancelled() }}
+      run: |
+        echo "Workflow Cancelled"
