@@ -36,6 +36,11 @@ jobs:
       run: |
         echo "::set-output name=status::${{ job.status }}"
         echo "JOB STATUS= ${{ job.status }}"
+        
+    - name: Cancelled notification
+      if: ${{ cancelled() }}
+      run: |
+        echo "Workflow Cancelled"
   
   job2:
     name: Job2
