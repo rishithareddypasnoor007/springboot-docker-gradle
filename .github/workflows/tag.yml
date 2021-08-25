@@ -1,9 +1,9 @@
 name: tag workflow
 
 on:
-#    workflow_dispatch
-  push:
-    branches: [ master ]
+    workflow_dispatch
+#  push:
+#    branches: [ master ]
     
 concurrency: master
 
