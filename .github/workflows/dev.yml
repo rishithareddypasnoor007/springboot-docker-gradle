@@ -25,13 +25,13 @@ jobs:
       id: update-manifest
       run: |
         echo "this is update manifest"
-        exit 1
       continue-on-error: true
       
     - name: repush manifest
-      if: ${{ always() && steps.commit-manifest.outcome == 'failure' }}
       id: repush-manifest
       run: |
+        variable="abcd"
+        echo $variable
         echo "this is repush manifest"
    
     - name: Deploy
