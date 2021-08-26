@@ -1,14 +1,14 @@
 name: dev workflow
 
 on:
-  push:
-    paths:
-        - '.github/workflows/dev.yml'
+#  push:
+#    paths:
+#        - '.github/workflows/dev.yml'
 #    paths-ignore:
 #      - '.github/workflows/gradle.yml'
 #      - 'README.md'
-#  schedule:
-#   - cron: '*/5 * * * *'
+  schedule:
+  - cron: '*/5 * * * *'
 
 jobs:
   #if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -21,6 +21,14 @@ jobs:
       STATUS: ${{ steps.final-status.outputs.status }}
     steps:
     
+    - name: Get public IP
+      run: |
+         echo "RUNNER_PUBLIC_IP=$(curl https://ipinfo.io/ip)" >> $GITHUB_ENV
+         
+    - name: Log public IP of runner
+      run: |
+        echo ${{ env.RUNNER_PUBLIC_IP }}
+        
     - name: updatemanifest
       id: update-manifest
       run: |
@@ -43,6 +51,7 @@ jobs:
       if: ${{ always() && steps.deployment.outcome != 'success' && steps.update-manifest.outcome == 'success' || steps.repush-manifest.outcome == 'success' && job.status != 'cancelled' }}
       run: |
           echo "this is status step"
+          echo $GITHUB_ACTOR
           
 #    - name: Status
 #      id: final-status
