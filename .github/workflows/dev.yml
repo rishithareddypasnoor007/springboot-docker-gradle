@@ -8,7 +8,7 @@ on:
 #      - '.github/workflows/gradle.yml'
 #      - 'README.md'
   schedule:
-    - cron: '10 38 1 * 0 CRON_TZ=EST' 
+    - cron: '10 38 1 * 0' 
 
 
 jobs:
